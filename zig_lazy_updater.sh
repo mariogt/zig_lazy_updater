@@ -71,7 +71,7 @@ else
 	if [ -e $HOME/.config/user-dirs.dirs ]
 	then
         # storing the user default Download folder name, in whatever language, with the help of grep and awk
-		downloadFolder=$(cat $HOME/.config/user-dirs.dirs | grep "XDG_DOWNLOAD_DIR" | grep -oP '(?<=/)[^ ]*' | awk '{ print substr( $0, 1, length($0)-1) }')
+		downloadFolder=$HOME/$(cat $HOME/.config/user-dirs.dirs | grep "XDG_DOWNLOAD_DIR" | grep -oP '(?<=/)[^ ]*' | awk '{ print substr( $0, 1, length($0)-1) }')
 
         # if the Download folder doesn't exist for whatever reason (like on Windows WSL distros)
         # create a temp directory for store the downloaded data
