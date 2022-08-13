@@ -38,6 +38,14 @@ echo ""
 echo "🎉 Lazy Man Updater/Installer for Zig dev release 🎉"
 echo ""
 
+# deleting the zig_temp_download folder if exist
+if [ -d $HOME/zig_temp_download ]
+then
+    rm -rf $HOME/zig_temp_download
+fi
+
+cd $HOME
+
 # checking if zig is installed and present in your $PATH
 if ! command -v zig &> /dev/null
 then
@@ -76,11 +84,12 @@ else
         # if the Download folder doesn't exist for whatever reason (like on Windows WSL distros)
         # create a temp directory for store the downloaded data
 	else
-        if [ -d "zig_temp_download" ]
+        if [ -d "$/HOME/zig_temp_download" ]
         then
 		    downloadFolder="$HOME/zig_temp_download"
         else
 		    mkdir zig_temp_download
+            downloadFolder="$HOME/zig_temp_download"
         fi
 	fi
 	cd $downloadFolder
@@ -92,9 +101,9 @@ else
 	mv ziglang.org/builds/zig* $HOME && rm -rf ziglang.org
 
     # deleting the zig_temp_download folder if exist
-    if [ -d zig_temp_download ]
+    if [ -d $HOME/zig_temp_download ]
     then
-        rm -rf zig_temp_download
+        rm -rf $HOME/zig_temp_download
     fi
 
 	echo "✅ Download complete!"
