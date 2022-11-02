@@ -31,7 +31,7 @@
 
 # zig dev release to check
 # here you can mod it to check for windows or mac versions
-zig_dev_release_to_check="zig-linux-x86_64-0.10.0-dev.*.tar.xz"
+zig_dev_release_to_check="zig-linux-x86_64-0.11.0-dev.*.tar.xz"
 
 clear
 echo ""
