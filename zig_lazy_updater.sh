@@ -29,11 +29,7 @@
 #  OUT OF OR IN CONNECTION WITH THE TEXT OR THE USE OR OTHER DEALINGS dtt TEXT.
 
 
-clear
-echo ""
-echo "🎉 Lazy Man Updater/Installer for Zig dev release 🎉"
-echo ""
-
+# updater function
 worker() {
     # zig dev release to check
     zig_dev_release_to_check="$1"
@@ -139,57 +135,69 @@ worker() {
     fi
 }
 
-bool=true
-while [ $bool ]
-do
-    echo "Choose the platform you want to install the latest Zig dev release:"
-    echo ""
-	echo "1 = 🐧 Linux (x86_64)"
-    echo "2 = 🍎 macOS (aarch64)"
-    echo "3 = 📺 Windows (x86_64)"
-    echo "4 = exit"
-    echo ""
-
-    read option
+# main menu function
+mainMenu() {
     clear
+    echo ""
+    echo "🎉 Lazy Man Updater/Installer for Zig dev release 🎉"
+    echo ""
 
-	if [ "$option" == "1" ];
-	then
-		bool=false
-		echo "🐧 Linux (x86_64) selected!"
+    bool=true
+    while [ $bool ]
+    do
+        echo "For what platform you want to install the latest Zig dev release?"
         echo ""
-        zig_dev_release_to_check="zig-linux-x86_64-0.11.0-dev.*.tar.xz"
-        worker $zig_dev_release_to_check
-		exit
-	elif [ "$option" == "2" ];
-	then
-		bool=false
-        echo "🍎 macOS (aarch64) selected!"
+	    echo "1 = 🐧 Linux (x86_64)"
+        echo "2 = 🍎 macOS (aarch64)"
+        echo "3 = 📺 Windows (x86_64)"
+        echo "4 = exit"
         echo ""
-        zig_dev_release_to_check="zig-macos-aarch64-0.11.0-dev.*.tar.xz"
-        worker $zig_dev_release_to_check
-		exit
-    elif [ "$option" == "3" ];
-	then
-		bool=false
-        echo "📺 Windows (x86_64) selected!"
-        echo ""
-        zig_dev_release_to_check="zig-windows-x86_64-0.11.0-dev.*.tar.xz"
-        worker $zig_dev_release_to_check
-		exit
-    elif [ "$option" == "4" ];
-	then
-        bool=false
+
+        echo "Type your option and press Enter: "
+        read option
         clear
-        exit
-    elif [ "$option" == "" ];
-	then
-        bool=true
-        echo "🔥Empty option! please try again🔥 "
-        echo ""
-	else
-		bool=true
-		echo "🔥Nonvalid option! please try again🔥"
-        echo ""
-	fi
-done
+
+	    if [ "$option" == "1" ];
+	    then
+		    bool=false
+		    echo "🐧 Linux (x86_64) selected!"
+            echo ""
+            zig_dev_release_to_check="zig-linux-x86_64-0.11.0-dev.*.tar.xz"
+            worker $zig_dev_release_to_check
+		    exit
+	    elif [ "$option" == "2" ];
+	    then
+		    bool=false
+            echo "🍎 macOS (aarch64) selected!"
+            echo ""
+            zig_dev_release_to_check="zig-macos-aarch64-0.11.0-dev.*.tar.xz"
+            worker $zig_dev_release_to_check
+		    exit
+        elif [ "$option" == "3" ];
+	    then
+		    bool=false
+            echo "📺 Windows (x86_64) selected!"
+            echo ""
+            zig_dev_release_to_check="zig-windows-x86_64-0.11.0-dev.*.tar.xz"
+            worker $zig_dev_release_to_check
+		    exit
+        elif [ "$option" == "4" ];
+	    then
+            bool=false
+            clear
+            exit
+        elif [ "$option" == "" ];
+	    then
+            bool=true
+            echo "🔥Empty option! please try again🔥 "
+            echo ""
+	    else
+		    bool=true
+		    echo "🔥Nonvalid option! please try again🔥"
+            echo ""
+	    fi
+    done
+}
+
+# call the main user menu function
+mainMenu
