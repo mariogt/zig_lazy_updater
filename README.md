@@ -16,3 +16,4 @@ Feel free to fork and mod this script to fit your needs.
 
 ![zig_lazy_updater menu](https://github.com/mariogt/zig_lazy_updater/blob/main/screenshots/menu_zig.jpg)
 ![zig_lazy_updater installing](https://github.com/mariogt/zig_lazy_updater/blob/main/screenshots/installing_zig.jpg)
+![zig_lazy_updater updating](https://github.com/mariogt/zig_lazy_updater/blob/main/screenshots/updating_zig.jpg)
