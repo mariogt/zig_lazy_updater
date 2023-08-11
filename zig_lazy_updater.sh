@@ -28,6 +28,8 @@
 #  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 #  OUT OF OR IN CONNECTION WITH THE TEXT OR THE USE OR OTHER DEALINGS dtt TEXT.
 
+# version number substring, to insert into zig_dev_release_to_check var
+dev_ver_string="0.12.0"
 
 # updater function
 worker() {
@@ -162,7 +164,7 @@ mainMenu() {
 		    bool=false
 		    echo "🐧 Linux (x86_64) selected!"
             echo ""
-            zig_dev_release_to_check="zig-linux-x86_64-0.11.0-dev.*.tar.xz"
+            zig_dev_release_to_check="zig-linux-x86_64-$dev_ver_string-dev.*.tar.xz"
             worker $zig_dev_release_to_check
 		    exit
 	    elif [ "$option" == "2" ];
@@ -170,7 +172,7 @@ mainMenu() {
 		    bool=false
             echo "🍎 macOS (aarch64) selected!"
             echo ""
-            zig_dev_release_to_check="zig-macos-aarch64-0.11.0-dev.*.tar.xz"
+            zig_dev_release_to_check="zig-macos-aarch64-$dev_ver_string-dev.*.tar.xz"
             worker $zig_dev_release_to_check
 		    exit
         elif [ "$option" == "3" ];
@@ -178,7 +180,7 @@ mainMenu() {
 		    bool=false
             echo "📺 Windows (x86_64) selected!"
             echo ""
-            zig_dev_release_to_check="zig-windows-x86_64-0.11.0-dev.*.tar.xz"
+            zig_dev_release_to_check="zig-windows-x86_64-$dev_ver_string-dev.*.tar.xz"
             worker $zig_dev_release_to_check
 		    exit
         elif [ "$option" == "4" ];
