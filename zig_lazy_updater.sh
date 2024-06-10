@@ -29,7 +29,7 @@
 #  OUT OF OR IN CONNECTION WITH THE TEXT OR THE USE OR OTHER DEALINGS dtt TEXT.
 
 # version number substring, to insert into zig_dev_release_to_check var
-dev_ver_string="0.13.0"
+dev_ver_string="0.14.0"
 
 # updater function
 worker() {
