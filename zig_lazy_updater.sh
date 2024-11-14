@@ -85,7 +85,7 @@ worker() {
     cd $downloadFolder
 
     # get the latest zig dev compilation with wget and regex
-    wget --progress=bar --no-check-certificate --no-parent -r --exclude-directories=/documentation,/news,/zsf,/learn,/de,/es,/fr,/it,/ar,/fa,/pt,/zh,/ko,/perf --accept-regex "zig-linux-x86_64-$dev_ver_string-dev\..*\.tar\.xz$" https://ziglang.org/
+    wget --progress=bar --no-check-certificate --no-parent -r --exclude-directories=/documentation,/news,/zsf,/learn,/de,/es,/fr,/it,/ar,/fa,/pt,/zh,/ko,/perf --accept-regex "$zig_dev_release_to_check" https://ziglang.org/
 
     # moving the zig compressed file to your $HOME, then we delete the temp dir $HOME/$downloadFolder
     mv ziglang.org/builds/zig* $HOME && rm -rf ziglang.org
@@ -152,21 +152,21 @@ mainMenu() {
       bool=false
       echo "🐧 Linux (x86_64) selected!"
       echo ""
-      zig_dev_release_to_check="zig-linux-x86_64-$dev_ver_string-dev.*.tar.xz"
+      zig_dev_release_to_check="zig-linux-x86_64-$dev_ver_string-dev\..*\.tar\.xz$"
       worker $zig_dev_release_to_check
       exit
     elif [ "$option" == "2" ]; then
       bool=false
       echo "🍎 macOS (aarch64) selected!"
       echo ""
-      zig_dev_release_to_check="zig-macos-aarch64-$dev_ver_string-dev.*.tar.xz"
+      zig_dev_release_to_check="zig-macos-aarch64-$dev_ver_string-dev\..*\.tar\.xz$"
       worker $zig_dev_release_to_check
       exit
     elif [ "$option" == "3" ]; then
       bool=false
       echo "📺 Windows (x86_64) selected!"
       echo ""
-      zig_dev_release_to_check="zig-windows-x86_64-$dev_ver_string-dev.*.tar.xz"
+      zig_dev_release_to_check="zig-windows-x86_64-$dev_ver_string-dev\..*\.tar\.xz$"
       worker $zig_dev_release_to_check
       exit
     elif [ "$option" == "4" ]; then
