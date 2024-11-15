@@ -5,22 +5,9 @@
 #
 #  Zig Lazy Man Installer/Updater
 #
-#  Script to update/install the latest dev build of Zig into your $HOME folder
-#  Beware that this script delete the old zig folder present in your $HOME
-#  Feel free to mod this script to your needs
+#  Update or install the latest dev build of Zig into your $HOME folder
+#  This script works on MacOS, Linux and WSL
 #
-#  Copyright (c) MarioGT Software 2022.
-#
-#  Permission is hereby granted, free of charge, to any person obtaining a copy
-#  of this text and associated documentation files (the "Text"), to deal
-#  in the Text without restriction, including without limitation the rights
-#  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-#  copies of the Text, and to permit persons to whom the Software is
-#  furnished to do so, subject to the following conditions:
-#
-#  The above copyright notice and this permission notice shall be included in all
-#  copies or substantial portions of the Text.
-
 #  THE TEXT IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 #  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 #  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -28,7 +15,7 @@
 #  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 #  OUT OF OR IN CONNECTION WITH THE TEXT OR THE USE OR OTHER DEALINGS dtt TEXT.
 
-# version number substring, to insert into zig_dev_release_to_check var
+# version number substring, to insert into zig_dev_release_to_check
 # Detect the operating system
 OS=$(uname -s)
 case $OS in
@@ -40,7 +27,7 @@ Linux*)
   zig_dev_ver_string="0\.14\.0"
   ;;
 *)
-  echo "*** I can't find OS"
+  echo "*** Unsupported OS ***"
   exit 1
   ;;
 esac
@@ -51,28 +38,26 @@ worker() {
   zig_dev_release_to_check="$1"
 
   # deleting the zig_temp_download folder if exist
-  if [ -d $HOME/zig_temp_download ]; then
-    rm -rf $HOME/zig_temp_download
+  if [ -d "$HOME"/zig_temp_download ]; then
+    rm -rf "$HOME"/zig_temp_download
   fi
 
-  cd $HOME
+  cd "$HOME" || exit
 
   # checking if zig is installed and present in your $PATH
   if ! command -v zig &>/dev/null; then
     echo "*** I can't find Zig installed"
     echo ""
   else
-    # if zig is installed then we store the local version
+    # if zig is installed store the local version
     zig_installed_version=$(zig version)
 
-    # searching for the local version number on the zig website,
-    # if is founded then zig_dev_latest_version var is not nil
-    zig_dev_latest_version=$(curl -s https://ziglang.org/download/ | grep -o $zig_installed_version | uniq)
+    # search if the local zig version number is present on the zig website,
+    zig_dev_latest_version=$(curl -s https://ziglang.org/download/ | grep -o "$zig_installed_version" | uniq)
   fi
 
-  # checking if is needed to install/update zig
   # if zig_dev_latest_version != nil --> zig installed locally is already at its latest version
-  # if zig_dev_latest_version == nil --> zig isn't installed locally or is obsolete
+  # if zig_dev_latest_version == nil --> zig isn't installed locally or it obsolete
 
   if [ -n "$zig_dev_latest_version" ]; then
     echo "🐸 Doing nothing 🐸"
@@ -84,26 +69,26 @@ worker() {
     echo ""
     echo "🌎 Downloading the latest dev build ..."
 
-    # checking if we can use the default Downloads folder for storing the downloaded files
-    if [ -e $HOME/.config/user-dirs.dirs ]; then
+    # checking for user default Downloads folder for storing the downloaded files
+    if [ -e "$HOME"/.config/user-dirs.dirs ]; then
       # storing the user default Download folder name, in whatever language, with the help of grep and awk
-      downloadFolder=$HOME/$(cat $HOME/.config/user-dirs.dirs | grep "XDG_DOWNLOAD_DIR" | grep -oP '(?<=/)[^ ]*' | awk '{ print substr( $0, 1, length($0)-1) }')
+      downloadFolder="$HOME"/$(cat "$HOME/.config/user-dirs.dirs" | grep "XDG_DOWNLOAD_DIR" | grep -oP '(?<=/)[^ ]*' | awk '{ print substr( $0, 1, length($0)-1) }')
 
-      # if the Download folder doesn't exist for whatever reason (like on Windows WSL distros)
+      # if user-dirs doesn't exist like on macOS or WSL then
       # create a temp directory for storing the downloaded data
     else
-      mkdir $HOME/zig_temp_download
+      mkdir "$HOME/zig_temp_download"
       downloadFolder="$HOME/zig_temp_download"
     fi
-    cd $downloadFolder
+    cd "$downloadFolder" || exit
 
     # get the latest zig dev compilation with wget and regex
     case $OS in
     Darwin*)
-      wget -q --no-check-certificate --no-parent -r --exclude-directories=/documentation,/news,/zsf,/learn,/de,/es,/fr,/it,/ar,/fa,/pt,/zh,/ko,/perf -A $zig_dev_release_to_check https://ziglang.org/
+      wget -q --no-check-certificate --no-parent -r --exclude-directories=/css,/devlog,/documentation,/download,/news,/sponsors,/zsf,/learn -A "$zig_dev_release_to_check" https://ziglang.org
       ;;
     Linux*)
-      wget --progress=bar --no-check-certificate --no-parent -r --exclude-directories=/documentation,/news,/zsf,/learn,/de,/es,/fr,/it,/ar,/fa,/pt,/zh,/ko,/perf --accept-regex "$zig_dev_release_to_check" https://ziglang.org/
+      wget -q --no-check-certificate --no-parent -r --exclude-directories=/css,/devlog,/documentation,/download,/news,/sponsors,/zsf,/learn --accept-regex "$zig_dev_release_to_check" https://ziglang.org/
       ;;
     *)
       echo "*** Unknown OS"
@@ -112,17 +97,17 @@ worker() {
     esac
 
     # moving the zig compressed file to your $HOME, then we delete the temp dir $HOME/$downloadFolder
-    mv ziglang.org/builds/zig* $HOME && rm -rf ziglang.org
+    mv ziglang.org/builds/zig* "$HOME" && rm -rf ziglang.org
 
     # deleting the zig_temp_download folder if exist
-    if [ -d $HOME/zig_temp_download ]; then
-      rm -rf $HOME/zig_temp_download
+    if [ -d "$HOME/zig_temp_download" ]; then
+      rm -rf "$HOME/zig_temp_download"
     fi
 
     echo "✅ Download complete!"
     echo ""
 
-    cd $HOME
+    cd "$HOME" || exit
 
     # check if an old zig installation is present
     # if exist we zap it!
@@ -133,7 +118,7 @@ worker() {
     fi
 
     # storing the zig version number from the downloaded file
-    zig_full_path=$(ls | grep "zig-*")
+    zig_full_path=$(ls | grep zig-*)
     zig_full_file_name=$(basename "$zig_full_path")
     zig_version=${zig_full_file_name%.*.*}
 
@@ -146,8 +131,8 @@ worker() {
 
     echo "⚡$zig_version installed in $HOME/zig"
     echo ""
-    echo "Add $HOME/zig to your Path, write this line to your shell config file (like .bashrc)"
-    echo 'export PATH="$HOME/zig:$PATH"'
+    echo "Add \$HOME/zig to your Path, write this line to your shell config file (like .bashrc)"
+    echo "export PATH=\$HOME/zig:\$PATH"
   fi
 }
 
@@ -162,38 +147,30 @@ mainMenu() {
   while [ $bool ]; do
     echo "For what platform you want to install the latest Zig dev release?"
     echo ""
-    echo "1 = 🐧 Linux (x86_64)"
+    echo "1 = 🐧 Linux/WSL (x86_64)"
     echo "2 = 🍎 macOS (aarch64)"
-    echo "3 = 📺 Windows (x86_64)"
-    echo "4 = exit"
+    echo "3 = exit"
     echo ""
 
     echo "Type your option and press Enter: "
-    read option
+    read -r option
     clear
 
     if [ "$option" == "1" ]; then
       bool=false
-      echo "🐧 Linux (x86_64) selected!"
+      echo "🐧 Linux/WSL (x86_64) selected!"
       echo ""
       zig_dev_release_to_check="zig-linux-x86_64-$zig_dev_ver_string-dev\..*\.tar\.xz$"
-      worker $zig_dev_release_to_check
+      worker "$zig_dev_release_to_check"
       exit
     elif [ "$option" == "2" ]; then
       bool=false
       echo "🍎 macOS (aarch64) selected!"
       echo ""
       zig_dev_release_to_check="zig-macos-aarch64-$zig_dev_ver_string-dev.*.tar.xz"
-      worker $zig_dev_release_to_check
+      worker "$zig_dev_release_to_check"
       exit
     elif [ "$option" == "3" ]; then
-      bool=false
-      echo "📺 Windows (x86_64) selected!"
-      echo ""
-      zig_dev_release_to_check="zig-windows-x86_64-$zig_dev_ver_string-dev\..*\.tar\.xz$"
-      worker $zig_dev_release_to_check
-      exit
-    elif [ "$option" == "4" ]; then
       bool=false
       clear
       exit
