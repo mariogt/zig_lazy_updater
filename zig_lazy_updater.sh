@@ -24,7 +24,7 @@ Darwin*)
   ;;
 Linux*)
   # scaped with \ for regex work
-  zig_dev_ver_string="0\.15\.0"
+  zig_dev_ver_string="0.15.0"
   ;;
 *)
   echo "*** Unsupported OS ***"
@@ -88,7 +88,7 @@ worker() {
       wget -q --no-check-certificate --no-parent -r --exclude-directories=/css,/devlog,/documentation,/download,/news,/sponsors,/zsf,/learn -A "$zig_dev_release_to_check" https://ziglang.org
       ;;
     Linux*)
-      wget -q --no-check-certificate --no-parent -r --exclude-directories=/css,/devlog,/documentation,/download,/news,/sponsors,/zsf,/learn --accept-regex "$zig_dev_release_to_check" https://ziglang.org/
+      wget -q --no-check-certificate --no-parent -r --exclude-directories=/css,/devlog,/documentation,/download,/news,/sponsors,/zsf,/learn -A "$zig_dev_release_to_check" https://ziglang.org
       ;;
     *)
       echo "*** Unknown OS"
@@ -160,14 +160,14 @@ mainMenu() {
       bool=false
       echo "🐧 Linux/WSL (x86_64) selected!"
       echo ""
-      zig_dev_release_to_check="zig-linux-x86_64-$zig_dev_ver_string-dev\..*\.tar\.xz$"
+      zig_dev_release_to_check="zig-x86_64-linux-$zig_dev_ver_string-dev.*.tar.xz"
       worker "$zig_dev_release_to_check"
       exit
     elif [ "$option" == "2" ]; then
       bool=false
       echo "🍎 macOS (aarch64) selected!"
       echo ""
-      zig_dev_release_to_check="zig-macos-aarch64-$zig_dev_ver_string-dev.*.tar.xz"
+      zig_dev_release_to_check="zig-aarch64-macos-$zig_dev_ver_string-dev.*.tar.xz"
       worker "$zig_dev_release_to_check"
       exit
     elif [ "$option" == "3" ]; then
