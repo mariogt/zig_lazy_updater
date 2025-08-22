@@ -85,7 +85,7 @@ worker() {
     # get the latest zig dev compilation with wget and regex
     case $OS in
     Darwin*)
-      wget --no-check-certificate --no-parent -r --exclude-directories=/css,/devlog,/documentation,/news,/sponsors,/zsf,/learn -A "$zig_dev_release_to_check" https://ziglang.org
+      wget -q --no-check-certificate --no-parent -r --exclude-directories=/css,/devlog,/documentation,/news,/sponsors,/zsf,/learn -A "$zig_dev_release_to_check" https://ziglang.org
       ;;
     Linux*)
       wget -q --no-check-certificate --no-parent -r --exclude-directories=/css,/devlog,/documentation,/news,/sponsors,/zsf,/learn -A "$zig_dev_release_to_check" https://ziglang.org
