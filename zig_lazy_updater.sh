@@ -20,11 +20,11 @@
 OS=$(uname -s)
 case $OS in
 Darwin*)
-  zig_dev_ver_string="0.15"
+  zig_dev_ver_string="0.16"
   ;;
 Linux*)
   # scaped with \ for regex work
-  zig_dev_ver_string="0.15"
+  zig_dev_ver_string="0.16"
   ;;
 *)
   echo "*** Unsupported OS ***"
@@ -97,7 +97,7 @@ worker() {
     esac
 
     # moving the zig compressed file to your $HOME, then we delete the temp dir $HOME/$downloadFolder
-    mv ziglang.org/download/$zig_dev_ver_string.*/zig* "$HOME" && rm -rf ziglang.org
+    mv ziglang.org/builds/zig* "$HOME" && rm -rf ziglang.org
 
     # deleting the zig_temp_download folder if exist
     if [ -d "$HOME/zig_temp_download" ]; then
@@ -160,14 +160,14 @@ mainMenu() {
       bool=false
       echo "🐧 Linux/WSL (x86_64) selected!"
       echo ""
-      zig_dev_release_to_check="zig-x86_64-linux-$zig_dev_ver_string.*.tar.xz"
+      zig_dev_release_to_check="zig-x86_64-linux-$zig_dev_ver_string.*-dev.*.tar.xz"
       worker "$zig_dev_release_to_check"
       exit
     elif [ "$option" == "2" ]; then
       bool=false
       echo "🍎 macOS (aarch64) selected!"
       echo ""
-      zig_dev_release_to_check="zig-aarch64-macos-$zig_dev_ver_string.*.tar.xz"
+      zig_dev_release_to_check="zig-aarch64-macos-$zig_dev_ver_string.*-dev.*.tar.xz"
       worker "$zig_dev_release_to_check"
       exit
     elif [ "$option" == "3" ]; then
