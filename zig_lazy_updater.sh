@@ -20,11 +20,11 @@
 OS=$(uname -s)
 case $OS in
 Darwin*)
-  zig_dev_ver_string="0.16"
+  zig_dev_ver_string="0.17"
   ;;
 Linux*)
   # scaped with \ for regex work
-  zig_dev_ver_string="0.16"
+  zig_dev_ver_string="0.17"
   ;;
 *)
   echo "*** Unsupported OS ***"
